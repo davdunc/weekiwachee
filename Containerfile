@@ -25,8 +25,7 @@ RUN dnf install -y \
     google-noto-sans-fonts \
     git \
     ca-certificates && \
-    dnf
-    clean all
+    dnf clean all
 
 # Tell Puppeteer to use the system-installed Chromium.
 # Fedora typically installs it as /usr/bin/chromium-browser.
