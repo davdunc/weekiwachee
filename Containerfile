@@ -42,6 +42,3 @@ WORKDIR /diagrams
 
 # Set the entrypoint to mmdc.
 ENTRYPOINT ["mmdc"]
-
-# Optional: Default command if no arguments are passed to 'podman run'
-CMD ["--help"]
