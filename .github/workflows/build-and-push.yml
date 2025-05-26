@@ -36,8 +36,8 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | podman login ghcr.io -u ${{ github.actor }} --password-stdin
 
       # Option B: Login to Docker Hub (Uncomment and configure secrets if using Docker Hub)
-      # - name: Log in to Docker Hub
-      #   run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | podman login docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | podman login docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
       - name: Build and Push Image
         run: |
@@ -46,15 +46,15 @@ jobs:
           # For Docker Hub: docker.io/DOCKERHUB_USERNAME/IMAGE_NAME or just DOCKERHUB_USERNAME/IMAGE_NAME
 
           IMAGE_OWNER_GHCR=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
-          IMAGE_NAME="my-fedora-mermaid-cli" # You can change this
+          IMAGE_NAME="weekiwachee" # You can change this
 
           # Default to GHCR
           REGISTRY_PATH="ghcr.io/${IMAGE_OWNER_GHCR}/${IMAGE_NAME}"
 
           # --- Uncomment the line below if you are using Docker Hub ---
-          # REGISTRY_PATH="docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${IMAGE_NAME}"
+          REGISTRY_PATH="docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${IMAGE_NAME}"
           # Or for personal Docker Hub without 'docker.io/' prefix if preferred by Podman:
-          # REGISTRY_PATH="${{ secrets.DOCKERHUB_USERNAME }}/${IMAGE_NAME}"
+          ## REGISTRY_PATH="${{ secrets.DOCKERHUB_USERNAME }}/${IMAGE_NAME}"
 
           echo "Target registry path: ${REGISTRY_PATH}"
 
@@ -87,4 +87,4 @@ jobs:
         if: always() # Run even if previous steps fail, to ensure logout
         run: |
           podman logout ghcr.io || echo "GHCR logout failed or was not logged in."
-          # podman logout docker.io || echo "Docker Hub logout failed or was not logged in." # Uncomment if using Docker Hub
+          podman logout docker.io || echo "Docker Hub logout failed or was not logged in." # Uncomment if using Docker Hub
